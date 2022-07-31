@@ -8,3 +8,6 @@
 	path = lib/glad
 	url = git@github.com:glfw/glfw.git
 	branch = c
+[submodule "lib/stb"]
+	path = lib/stb
+	url = https://github.com/nothings/stb.git
