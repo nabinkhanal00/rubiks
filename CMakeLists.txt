@@ -18,7 +18,8 @@ endif()
 include_directories(include/
                     lib/glad/include/
                     lib/glfw/include/
-                    lib/glm/)
+                    lib/glm/
+					lib/stb)
 
 file(GLOB VENDORS_SOURCES lib/glad/src/glad.c)
 file(GLOB PROJECT_HEADERS include/*.hpp)
