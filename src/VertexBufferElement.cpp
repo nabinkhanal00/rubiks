@@ -1,4 +1,5 @@
 #include "VertexBufferElement.hpp"
+#include "glad/glad.h"
 
 unsigned int VertexBufferElement::GetSizeOfType(unsigned int type) {
 	switch (type) {

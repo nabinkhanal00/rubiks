@@ -1,4 +1,5 @@
 #include "VertexBufferLayout.hpp"
+#include "glad/glad.h"
 
 VertexBufferLayout::VertexBufferLayout() : m_Stride(0) {}
 

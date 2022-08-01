@@ -1,4 +1,5 @@
 #include "VertexArray.hpp"
+#include "glad/glad.h"
 
 #define INT2VOIDP(i) (void *)(uintptr_t)(i)
 

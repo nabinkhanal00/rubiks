@@ -1,8 +1,8 @@
 #pragma once
-#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Cube.hpp"
 #include <string>
+#include <unordered_set>
 class Application {
   public:
 	Application(const Application &) = delete;
@@ -23,5 +23,6 @@ class Application {
 	unsigned int m_width;
 	unsigned int m_height;
 	GLFWwindow *m_window;
+	std::unordered_set<char> m_key_set;
 	Cube *c;
 };

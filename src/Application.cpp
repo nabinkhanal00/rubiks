@@ -1,11 +1,6 @@
 #include "Application.hpp"
+#include "glad/glad.h"
 #include <iostream>
-void Application::keyCallback(GLFWwindow *window, int key, int scanCode,
-                              int action, int mods) {
-	if (key == GLFW_KEY_F && action == GLFW_PRESS) {
-		c->f();
-	}
-}
 Application::Application(unsigned int width, unsigned int height,
                          std::string title)
     : m_width(width), m_height(height) {
@@ -33,14 +28,72 @@ Application::Application(unsigned int width, unsigned int height,
 }
 void Application::run() {
 	while (!glfwWindowShouldClose(m_window)) {
-		// processEvents();
+		processEvents();
 		update();
 		render();
 		listenEvents();
 	}
 }
 
-void Application::processEvents() {}
+void Application::processEvents() {
+	if (c->running) {
+		c->resume();
+		return;
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+
+		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_PRESS &&
+		    m_key_set.find('F') == m_key_set.end()) {
+			if (c->animate)
+				c->FAnimate();
+			else
+				c->F();
+			m_key_set.insert('F');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS &&
+		    m_key_set.find('R') == m_key_set.end()) {
+			if (c->animate)
+				c->RAnimate();
+			else
+				c->R();
+			m_key_set.insert('R');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_RELEASE) {
+			m_key_set.erase('R');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_RELEASE) {
+			m_key_set.erase('F');
+		}
+	} else {
+
+		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_PRESS &&
+		    m_key_set.find('f') == m_key_set.end()) {
+			if (c->animate)
+				c->fAnimate();
+			else
+				c->f();
+			m_key_set.insert('f');
+		}
+		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS &&
+		    m_key_set.find('r') == m_key_set.end()) {
+			if (c->animate)
+				c->rAnimate();
+			else
+				c->r();
+			m_key_set.insert('r');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_RELEASE) {
+			m_key_set.erase('f');
+		}
+		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_RELEASE) {
+			m_key_set.erase('r');
+		}
+	}
+}
 
 void Application::listenEvents() { glfwPollEvents(); }
 

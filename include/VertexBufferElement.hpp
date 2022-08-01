@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glad/glad.h"
-
 class VertexBufferElement {
   public:
 	unsigned int type;
