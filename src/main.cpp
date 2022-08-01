@@ -1,3 +1,6 @@
-#include <iostream>
+#include "Application.hpp"
 
-int main() { std::cout << "Hello world" << std::endl; }
+int main(){
+	Application app(1000, 1000);
+	app.run();
+}
