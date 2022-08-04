@@ -59,9 +59,20 @@ void Application::processEvents() {
 				c->R();
 			m_key_set.insert('R');
 		}
+		if (glfwGetKey(m_window, GLFW_KEY_U) == GLFW_PRESS &&
+		    m_key_set.find('U') == m_key_set.end()) {
+			if (c->animate)
+				c->UAnimate();
+			else
+				c->U();
+			m_key_set.insert('U');
+		}
 
 		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_RELEASE) {
 			m_key_set.erase('R');
+		}
+		if (glfwGetKey(m_window, GLFW_KEY_U) == GLFW_RELEASE) {
+			m_key_set.erase('U');
 		}
 
 		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_RELEASE) {
@@ -85,12 +96,23 @@ void Application::processEvents() {
 				c->r();
 			m_key_set.insert('r');
 		}
+		if (glfwGetKey(m_window, GLFW_KEY_U) == GLFW_PRESS &&
+		    m_key_set.find('u') == m_key_set.end()) {
+			if (c->animate)
+				c->uAnimate();
+			else
+				c->u();
+			m_key_set.insert('u');
+		}
 
 		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_RELEASE) {
 			m_key_set.erase('f');
 		}
 		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_RELEASE) {
 			m_key_set.erase('r');
+		}
+		if (glfwGetKey(m_window, GLFW_KEY_U) == GLFW_RELEASE) {
+			m_key_set.erase('u');
 		}
 	}
 }
