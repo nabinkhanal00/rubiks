@@ -7,7 +7,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 
-Cube::Cube() : running(false), animate(false) {
+Cube::Cube() : running(false), animate(true) {
 
 	std::vector<float> vertices{
 
@@ -109,7 +109,7 @@ Cube::Cube() : running(false), animate(false) {
 					if (c.z == 1) {
 						c.zColor = glm::vec3(1.0f, 0.0f, 0.0f);
 					} else if (c.z == -1) {
-						c.zColor = glm::vec3(1.0f, 0.64f, 1.0f);
+						c.zColor = glm::vec3(1.0f, 0.64f, 0.0f);
 					}
 					m_cubelets.push_back(c);
 				}
@@ -117,7 +117,7 @@ Cube::Cube() : running(false), animate(false) {
 		}
 	}
 
-	view = glm::lookAt(glm::vec3(3.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+	view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
 	                   glm::vec3(0.0f, 1.0f, 0.0f));
 	projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
 }
@@ -133,12 +133,10 @@ void Cube::draw() {
 
 	for (Cubelet &cubelet : m_cubelets) {
 		int position = 0;
-		glm::mat4 model(1.0f);
-		model = glm::rotate(model, glm::radians(-30.0f),
-		                    glm::vec3(1.0f, 1.0f, 0.0f));
+		glm::mat4 model = cubelet.model;
 		model = glm::translate(
 		    model, 0.5f * glm::vec3(cubelet.x, cubelet.y, cubelet.z));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::scale(model, 0.4f * glm::vec3(1.0f, 1.0f, 1.0f));
 
 		shader.SetMat4("model", model);
 		shader.SetVec3("color", cubelet.xColor);
@@ -175,4 +173,653 @@ void Cube::draw() {
 	}
 }
 
-void Cube::resume() {}
+void Cube::resume() {
+	switch (m_move) {
+	case Move::r:
+		rAnimate();
+		break;
+	case Move::l:
+		lAnimate();
+		break;
+	case Move::f:
+		fAnimate();
+		break;
+	case Move::b:
+		bAnimate();
+		break;
+	case Move::u:
+		uAnimate();
+		break;
+	case Move::d:
+		dAnimate();
+		break;
+
+	case Move::R:
+		RAnimate();
+		break;
+	case Move::L:
+		LAnimate();
+		break;
+	case Move::F:
+		FAnimate();
+		break;
+	case Move::B:
+		BAnimate();
+		break;
+	case Move::U:
+		UAnimate();
+		break;
+	case Move::D:
+		DAnimate();
+		break;
+	case Move::NONE:
+		break;
+	}
+}
+
+void Cube::f() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			int newX = c.x * round(cos(-M_PI_2)) - c.y * round(sin(-M_PI_2));
+			int newY = c.x * round(sin(-M_PI_2)) + c.y * round(cos(-M_PI_2));
+			c.x = newX;
+			c.y = newY;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.yColor;
+			c.yColor = tempColor;
+		}
+	}
+}
+
+void Cube::r() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == 1) {
+			int newY = c.y * round(cos(-M_PI_2)) - c.z * round(sin(-M_PI_2));
+			int newZ = c.y * round(sin(-M_PI_2)) + c.z * round(cos(-M_PI_2));
+			c.y = newY;
+			c.z = newZ;
+			glm::vec3 tempColor = c.yColor;
+			c.yColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::u() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == 1) {
+			int newZ = c.z * round(cos(-M_PI_2)) - c.x * round(sin(-M_PI_2));
+			int newX = c.z * round(sin(-M_PI_2)) + c.x * round(cos(-M_PI_2));
+			c.z = newZ;
+			c.x = newX;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::l() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == -1) {
+			int newY = c.y * round(cos(-M_PI_2)) - c.z * round(sin(-M_PI_2));
+			int newZ = c.y * round(sin(-M_PI_2)) + c.z * round(cos(-M_PI_2));
+			c.y = newY;
+			c.z = newZ;
+			glm::vec3 tempColor = c.yColor;
+			c.yColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+void Cube::b() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			int newX = c.x * round(cos(-M_PI_2)) - c.y * round(sin(-M_PI_2));
+			int newY = c.x * round(sin(-M_PI_2)) + c.y * round(cos(-M_PI_2));
+			c.x = newX;
+			c.y = newY;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.yColor;
+			c.yColor = tempColor;
+		}
+	}
+}
+void Cube::d() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == -1) {
+			int newZ = c.z * round(cos(-M_PI_2)) - c.x * round(sin(-M_PI_2));
+			int newX = c.z * round(sin(-M_PI_2)) + c.x * round(cos(-M_PI_2));
+			c.z = newZ;
+			c.x = newX;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::F() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			int newX = c.x * round(cos(M_PI_2)) - c.y * round(sin(M_PI_2));
+			int newY = c.x * round(sin(M_PI_2)) + c.y * round(cos(M_PI_2));
+			c.x = newX;
+			c.y = newY;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.yColor;
+			c.yColor = tempColor;
+		}
+	}
+}
+
+void Cube::R() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == 1) {
+			int newY = c.y * round(cos(M_PI_2)) - c.z * round(sin(M_PI_2));
+			int newZ = c.y * round(sin(M_PI_2)) + c.z * round(cos(M_PI_2));
+			c.y = newY;
+			c.z = newZ;
+			glm::vec3 tempColor = c.yColor;
+			c.yColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::U() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == 1) {
+			int newZ = c.z * round(cos(M_PI_2)) - c.x * round(sin(M_PI_2));
+			int newX = c.z * round(sin(M_PI_2)) + c.x * round(cos(M_PI_2));
+			c.z = newZ;
+			c.x = newX;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::L() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == -1) {
+			int newY = c.y * round(cos(M_PI_2)) - c.z * round(sin(M_PI_2));
+			int newZ = c.y * round(sin(M_PI_2)) + c.z * round(cos(M_PI_2));
+			c.y = newY;
+			c.z = newZ;
+			glm::vec3 tempColor = c.yColor;
+			c.yColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+void Cube::B() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			int newX = c.x * round(cos(M_PI_2)) - c.y * round(sin(M_PI_2));
+			int newY = c.x * round(sin(M_PI_2)) + c.y * round(cos(M_PI_2));
+			c.x = newX;
+			c.y = newY;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.yColor;
+			c.yColor = tempColor;
+		}
+	}
+}
+
+void Cube::D() {
+
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == -1) {
+			int newZ = c.z * round(cos(M_PI_2)) - c.x * round(sin(M_PI_2));
+			int newX = c.z * round(sin(M_PI_2)) + c.x * round(cos(M_PI_2));
+			c.z = newZ;
+			c.x = newX;
+			glm::vec3 tempColor = c.xColor;
+			c.xColor = c.zColor;
+			c.zColor = tempColor;
+		}
+	}
+}
+
+void Cube::fAnimate() {
+	static int sum = 0;
+	m_move = Move::f;
+	if (sum == 0)
+		std::cout << "f pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.z == 1) {
+				int newX =
+				    c.x * round(cos(-M_PI_2)) - c.y * round(sin(-M_PI_2));
+				int newY =
+				    c.x * round(sin(-M_PI_2)) + c.y * round(cos(-M_PI_2));
+				c.x = newX;
+				c.y = newY;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.yColor;
+				c.yColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::rAnimate() {
+
+	static int sum = 0;
+	m_move = Move::r;
+	if (sum == 0)
+		std::cout << "r pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.x == 1) {
+				int newY =
+				    c.y * round(cos(-M_PI_2)) - c.z * round(sin(-M_PI_2));
+				int newZ =
+				    c.y * round(sin(-M_PI_2)) + c.z * round(cos(-M_PI_2));
+				c.y = newY;
+				c.z = newZ;
+				glm::vec3 tempColor = c.yColor;
+				c.yColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::uAnimate() {
+
+	static int sum = 0;
+	m_move = Move::u;
+	if (sum == 0)
+		std::cout << "u pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.y == 1) {
+				int newZ =
+				    c.z * round(cos(-M_PI_2)) - c.x * round(sin(-M_PI_2));
+				int newX =
+				    c.z * round(sin(-M_PI_2)) + c.x * round(cos(-M_PI_2));
+				c.z = newZ;
+				c.x = newX;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::bAnimate() {
+	static int sum = 0;
+	m_move = Move::b;
+	if (sum == 0)
+		std::cout << "b pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.z == -1) {
+				int newX =
+				    c.x * round(cos(-M_PI_2)) - c.y * round(sin(-M_PI_2));
+				int newY =
+				    c.x * round(sin(-M_PI_2)) + c.y * round(cos(-M_PI_2));
+				c.x = newX;
+				c.y = newY;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.yColor;
+				c.yColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::lAnimate() {
+
+	static int sum = 0;
+	m_move = Move::l;
+	if (sum == 0)
+		std::cout << "l pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.x == -1) {
+				int newY =
+				    c.y * round(cos(-M_PI_2)) - c.z * round(sin(-M_PI_2));
+				int newZ =
+				    c.y * round(sin(-M_PI_2)) + c.z * round(cos(-M_PI_2));
+				c.y = newY;
+				c.z = newZ;
+				glm::vec3 tempColor = c.yColor;
+				c.yColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::dAnimate() {
+
+	static int sum = 0;
+	m_move = Move::d;
+	if (sum == 0)
+		std::cout << "d pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(-degree)),
+			                      glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.y == -1) {
+				int newZ =
+				    c.z * round(cos(-M_PI_2)) - c.x * round(sin(-M_PI_2));
+				int newX =
+				    c.z * round(sin(-M_PI_2)) + c.x * round(cos(-M_PI_2));
+				c.z = newZ;
+				c.x = newX;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+
+void Cube::FAnimate() {
+	static int sum = 0;
+	m_move = Move::F;
+	if (sum == 0)
+		std::cout << "F pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.z == 1) {
+				int newX = c.x * round(cos(M_PI_2)) - c.y * round(sin(M_PI_2));
+				int newY = c.x * round(sin(M_PI_2)) + c.y * round(cos(M_PI_2));
+				c.x = newX;
+				c.y = newY;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.yColor;
+				c.yColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::RAnimate() {
+
+	static int sum = 0;
+	m_move = Move::R;
+	if (sum == 0)
+		std::cout << "R pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.x == 1) {
+				int newY = c.y * round(cos(M_PI_2)) - c.z * round(sin(M_PI_2));
+				int newZ = c.y * round(sin(M_PI_2)) + c.z * round(cos(M_PI_2));
+				c.y = newY;
+				c.z = newZ;
+				glm::vec3 tempColor = c.yColor;
+				c.yColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::UAnimate() {
+
+	static int sum = 0;
+	m_move = Move::U;
+	if (sum == 0)
+		std::cout << "U pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == 1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.y == 1) {
+				int newZ = c.z * round(cos(M_PI_2)) - c.x * round(sin(M_PI_2));
+				int newX = c.z * round(sin(M_PI_2)) + c.x * round(cos(M_PI_2));
+				c.z = newZ;
+				c.x = newX;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::BAnimate() {
+	static int sum = 0;
+	m_move = Move::B;
+	if (sum == 0)
+		std::cout << "B pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.z == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.z == -1) {
+				int newX = c.x * round(cos(M_PI_2)) - c.y * round(sin(M_PI_2));
+				int newY = c.x * round(sin(M_PI_2)) + c.y * round(cos(M_PI_2));
+				c.x = newX;
+				c.y = newY;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.yColor;
+				c.yColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::LAnimate() {
+
+	static int sum = 0;
+	m_move = Move::L;
+	if (sum == 0)
+		std::cout << "L pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.x == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.x == -1) {
+				int newY = c.y * round(cos(M_PI_2)) - c.z * round(sin(M_PI_2));
+				int newZ = c.y * round(sin(M_PI_2)) + c.z * round(cos(M_PI_2));
+				c.y = newY;
+				c.z = newZ;
+				glm::vec3 tempColor = c.yColor;
+				c.yColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}
+void Cube::DAnimate() {
+
+	static int sum = 0;
+	m_move = Move::D;
+	if (sum == 0)
+		std::cout << "D pressed" << std::endl;
+	int degree = 2;
+	running = true;
+	for (Cubelet &c : m_cubelets) {
+		if (c.y == -1) {
+			glm::mat4 &oldModel = c.model;
+			c.model = glm::rotate(oldModel, glm::radians(float(degree)),
+			                      glm::vec3(0.0f, 1.0f, 0.0f));
+		}
+	}
+	sum += degree;
+	if (sum >= 90) {
+
+		for (Cubelet &c : m_cubelets) {
+			if (c.y == -1) {
+				int newZ = c.z * round(cos(M_PI_2)) - c.x * round(sin(M_PI_2));
+				int newX = c.z * round(sin(M_PI_2)) + c.x * round(cos(M_PI_2));
+				c.z = newZ;
+				c.x = newX;
+				glm::vec3 tempColor = c.xColor;
+				c.xColor = c.zColor;
+				c.zColor = tempColor;
+				c.model = glm::mat4(1.0f);
+			}
+		}
+		running = false;
+		sum = 0;
+		m_move = Move::NONE;
+	}
+}

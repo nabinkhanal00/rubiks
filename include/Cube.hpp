@@ -3,6 +3,8 @@
 #include "Cubelet.hpp"
 #include "glm/glm.hpp"
 
+enum class Move { f, r, u, b, l, d, F, R, U, B, L, D, NONE };
+
 #include <vector>
 class Cube {
   public:
@@ -29,19 +31,12 @@ class Cube {
 	void bAnimate();
 	void dAnimate();
 
-	void f2();
-	void r2();
-	void u2();
-	void l2();
-	void b2();
-	void d2();
-
-	void f2Animate();
-	void r2Animate();
-	void u2Animate();
-	void l2Animate();
-	void b2Animate();
-	void d2Animate();
+	void F();
+	void R();
+	void U();
+	void L();
+	void B();
+	void D();
 
 	void FAnimate();
 	void RAnimate();
@@ -50,14 +45,8 @@ class Cube {
 	void BAnimate();
 	void DAnimate();
 
-	void F();
-	void R();
-	void U();
-	void L();
-	void B();
-	void D();
-
   private:
 	unsigned int m_vao;
 	std::vector<Cubelet> m_cubelets;
+	Move m_move;
 };

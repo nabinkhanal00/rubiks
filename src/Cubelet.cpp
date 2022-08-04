@@ -14,4 +14,5 @@ Cubelet::Cubelet(int x, int y, int z) : x(x), y(y), z(z) {
 	xColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	yColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	zColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	model = glm::mat4(1.0f);
 }

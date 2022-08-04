@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include <vector>
 
@@ -10,4 +11,5 @@ class Cubelet {
 	int x, y, z;
 	Type type;
 	glm::vec3 xColor, yColor, zColor;
+	glm::mat4 model;
 };
