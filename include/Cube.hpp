@@ -3,13 +3,14 @@
 #include "Cubelet.hpp"
 #include "glm/glm.hpp"
 
-enum class Move { f, r, u, b, l, d, F, R, U, B, L, D, NONE };
+enum class Move { f = 0, r, u, b, l, d, F, R, U, B, L, D, NONE };
 
 #include <vector>
 class Cube {
   public:
 	bool running;
 	bool animate;
+	bool ss;
 	glm::mat4 view;
 	glm::mat4 projection;
 	Cube();
@@ -44,6 +45,15 @@ class Cube {
 	void LAnimate();
 	void BAnimate();
 	void DAnimate();
+
+	void shuffle();
+	void shuffle(std::vector<Move> &moves);
+	void solve();
+	void shuffleAndSolve();
+
+  private:
+	void applyMove(Move m);
+	void animateMove(Move m);
 
   private:
 	unsigned int m_vao;

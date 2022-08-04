@@ -39,6 +39,9 @@ void Application::processEvents() {
 	if (c->running) {
 		c->resume();
 		return;
+	} else if (c->ss) {
+		c->shuffleAndSolve();
+		return;
 	}
 	if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 
@@ -173,14 +176,24 @@ void Application::processEvents() {
 		if (glfwGetKey(m_window, GLFW_KEY_U) == GLFW_RELEASE) {
 			m_key_set.erase('u');
 		}
-		if (glfwGetKey(m_window, GLFW_KEY_F) == GLFW_RELEASE) {
+		if (glfwGetKey(m_window, GLFW_KEY_B) == GLFW_RELEASE) {
 			m_key_set.erase('b');
 		}
-		if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_RELEASE) {
+		if (glfwGetKey(m_window, GLFW_KEY_L) == GLFW_RELEASE) {
 			m_key_set.erase('l');
 		}
 		if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_RELEASE) {
 			m_key_set.erase('d');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS &&
+		    m_key_set.find('s') == m_key_set.end()) {
+			c->shuffleAndSolve();
+			m_key_set.insert('s');
+		}
+
+		if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_RELEASE) {
+			m_key_set.erase('s');
 		}
 	}
 }
