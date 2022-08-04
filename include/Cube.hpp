@@ -1,17 +1,15 @@
 #pragma once
 
 #include "Cubelet.hpp"
+#include "glm/glm.hpp"
+
 #include <vector>
 class Cube {
-  private:
-	std::vector<std::vector<std::vector<Cubelet>>> cubes;
-	struct current {
-		int x, y, z;
-	} c;
-
   public:
 	bool running;
 	bool animate;
+	glm::mat4 view;
+	glm::mat4 projection;
 	Cube();
 	void draw();
 
@@ -58,4 +56,8 @@ class Cube {
 	void L();
 	void B();
 	void D();
+
+  private:
+	unsigned int m_vao;
+	std::vector<Cubelet> m_cubelets;
 };
