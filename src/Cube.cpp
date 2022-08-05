@@ -945,6 +945,7 @@ void Cube::shuffle() {
 }
 void Cube::shuffle(std::vector<Move> &moves) {
 	int prev = -1;
+	srand(time(0));
 	while (moves.size() < 20) {
 		int pos = rand() % 12;
 
