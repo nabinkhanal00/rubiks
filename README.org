@@ -3,23 +3,23 @@
 
 ** Build Instruction
 #+begin_src bash
-	git clone https://www.github.com/khanalnabin/rubiks --recursive
-	cd rubiks
-	mkdir build
-	cd build
-	cmake ..
-	make
-	cd rubiks
-	./rubiks
+git clone https://www.github.com/khanalnabin/rubiks --recursive
+cd rubiks
+mkdir build
+cd build
+cmake ..
+make
+cd rubiks
+./rubiks
 #+end_src
 
 ** Keys
 *** Pressing following keys rotate that side of cube in clockwise direction.
 *** The uppercase version of these keys rotate that side in anti-clockwise direction.
-   	- f : front
-	- b : back 
-	- r : right
-	- l : left
-	- u : up
-	- d : down
-*** Pressing s will shuffle the cube and start to solve itself.
+- "f" : front
+- "b" : back 
+- "r" : right
+- "l" : left
+- "u" : up
+- "d" : down
+*** Pressing "s" will shuffle the cube and start to solve itself.
