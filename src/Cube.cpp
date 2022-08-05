@@ -90,8 +90,8 @@ Cube::Cube() : running(false), animate(true), ss(false) {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 	                      (void *)0);
-	ResourceManager::LoadShader("cubelet/vertex.glsl", "cubelet/fragment.glsl",
-	                            "cube");
+	ResourceManager::LoadShader("shaders/cubelet/vertex.glsl",
+	                            "shaders/cubelet/fragment.glsl", "cube");
 	for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
 			for (int k = -1; k <= 1; k++) {
