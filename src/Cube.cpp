@@ -138,37 +138,60 @@ void Cube::draw() {
 		model = glm::translate(
 		    model, 0.7f * glm::vec3(cubelet.x, cubelet.y, cubelet.z));
 		model = glm::scale(model, 0.6f * glm::vec3(1.0f, 1.0f, 1.0f));
-
+		glm::vec3 colorBlack(0.2f, 0.2f, 0.2f);
 		shader.SetMat4("model", model);
-		shader.SetVec3("color", cubelet.xColor);
 
 		if (cubelet.x == 1) {
+			shader.SetVec3("color", cubelet.xColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
 		position += 6;
+
 		if (cubelet.x == -1) {
+			shader.SetVec3("color", cubelet.xColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
+
 		position += 6;
 
-		shader.SetVec3("color", cubelet.yColor);
 		if (cubelet.y == 1) {
+			shader.SetVec3("color", cubelet.yColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
+
 		if (cubelet.y == -1) {
+			shader.SetVec3("color", cubelet.yColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
-		shader.SetVec3("color", cubelet.zColor);
+
 		if (cubelet.z == 1) {
+			shader.SetVec3("color", cubelet.zColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
+
 		if (cubelet.z == -1) {
+			shader.SetVec3("color", cubelet.zColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
 	}
