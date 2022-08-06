@@ -138,37 +138,60 @@ void Cube::draw() {
 		model = glm::translate(
 		    model, 0.7f * glm::vec3(cubelet.x, cubelet.y, cubelet.z));
 		model = glm::scale(model, 0.6f * glm::vec3(1.0f, 1.0f, 1.0f));
-
+		glm::vec3 colorBlack(0.2f, 0.2f, 0.2f);
 		shader.SetMat4("model", model);
-		shader.SetVec3("color", cubelet.xColor);
 
 		if (cubelet.x == 1) {
+			shader.SetVec3("color", cubelet.xColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
 		position += 6;
+
 		if (cubelet.x == -1) {
+			shader.SetVec3("color", cubelet.xColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
+
 		position += 6;
 
-		shader.SetVec3("color", cubelet.yColor);
 		if (cubelet.y == 1) {
+			shader.SetVec3("color", cubelet.yColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
+
 		if (cubelet.y == -1) {
+			shader.SetVec3("color", cubelet.yColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
-		shader.SetVec3("color", cubelet.zColor);
+
 		if (cubelet.z == 1) {
+			shader.SetVec3("color", cubelet.zColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
-
 		position += 6;
+
 		if (cubelet.z == -1) {
+			shader.SetVec3("color", cubelet.zColor);
+			glDrawArrays(GL_TRIANGLES, position, 6);
+		} else {
+			shader.SetVec3("color", colorBlack);
 			glDrawArrays(GL_TRIANGLES, position, 6);
 		}
 	}
@@ -962,12 +985,41 @@ void Cube::shuffle(std::vector<Move> &moves) {
 		prev = pos;
 	}
 }
+void Cube::restore() {
+	m_cubelets.clear();
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			for (int k = -1; k <= 1; k++) {
+				if (!(i == 0 && j == 0 && k == 0)) {
+					Cubelet c(i, j, k);
+					if (c.x == 1) {
+						c.xColor = glm::vec3(0.0f, 0.0f, 1.0f);
+					} else if (c.x == -1) {
+						c.xColor = glm::vec3(0.0f, 1.0f, 0.0f);
+					}
+					if (c.y == 1) {
+						c.yColor = glm::vec3(1.0f, 1.0f, 1.0f);
+					} else if (c.y == -1) {
+						c.yColor = glm::vec3(1.0f, 1.0f, 0.0f);
+					}
+					if (c.z == 1) {
+						c.zColor = glm::vec3(1.0f, 0.0f, 0.0f);
+					} else if (c.z == -1) {
+						c.zColor = glm::vec3(1.0f, 0.64f, 0.0f);
+					}
+					m_cubelets.push_back(c);
+				}
+			}
+		}
+	}
+}
 
 void Cube::shuffleAndSolve() {
 	ss = true;
 	static int count = -100;
 	static std::vector<Move> moves;
 	if (count == -100) {
+		restore();
 		shuffle(moves);
 	} else if (count < 0) {
 	} else if (count < (int)moves.size()) {

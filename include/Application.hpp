@@ -20,6 +20,9 @@ class Application {
 	void listenEvents();
 	void update();
 	void render();
+
+	static void framebufferSizeCallback(GLFWwindow *window, int width,
+	                                    int height);
 	unsigned int m_width;
 	unsigned int m_height;
 	GLFWwindow *m_window;
