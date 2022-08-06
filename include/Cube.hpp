@@ -54,6 +54,7 @@ class Cube {
   private:
 	void applyMove(Move m);
 	void animateMove(Move m);
+	void restore();
 
   private:
 	unsigned int m_vao;

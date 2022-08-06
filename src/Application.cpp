@@ -209,6 +209,15 @@ void Application::processEvents() {
 			m_key_set.erase('s');
 		}
 	}
+
+	if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	}
 }
 
 void Application::listenEvents() { glfwPollEvents(); }
