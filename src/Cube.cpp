@@ -118,9 +118,10 @@ Cube::Cube() : running(false), animate(true), ss(false) {
 		}
 	}
 
+	projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
 	view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
 	                   glm::vec3(0.0f, 1.0f, 0.0f));
-	projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
+	model = glm::mat4(1.0f);
 }
 
 void Cube::draw() {
@@ -134,12 +135,12 @@ void Cube::draw() {
 
 	for (Cubelet &cubelet : m_cubelets) {
 		int position = 0;
-		glm::mat4 model = cubelet.model;
-		model = glm::translate(
-		    model, 0.7f * glm::vec3(cubelet.x, cubelet.y, cubelet.z));
-		model = glm::scale(model, 0.6f * glm::vec3(1.0f, 1.0f, 1.0f));
+		glm::mat4 m = model * cubelet.model;
+		m = glm::translate(m,
+		                   0.7f * glm::vec3(cubelet.x, cubelet.y, cubelet.z));
+		m = glm::scale(m, 0.6f * glm::vec3(1.0f, 1.0f, 1.0f));
 		glm::vec3 colorBlack(0.2f, 0.2f, 0.2f);
-		shader.SetMat4("model", model);
+		shader.SetMat4("model", m);
 
 		if (cubelet.x == 1) {
 			shader.SetVec3("color", cubelet.xColor);

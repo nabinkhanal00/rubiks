@@ -1,4 +1,5 @@
 #pragma once
+#include "Camera.hpp"
 #include "GLFW/glfw3.h"
 #include "Cube.hpp"
 #include <string>
@@ -28,4 +29,5 @@ class Application {
 	GLFWwindow *m_window;
 	std::unordered_set<char> m_key_set;
 	Cube *c;
+	Camera cam;
 };

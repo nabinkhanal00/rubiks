@@ -3,6 +3,13 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 
+std::ostream &operator<<(std::ostream &os, glm::vec4 v) {
+	return os << v.x << " " << v.y << " " << v.z << " ";
+}
+std::ostream &operator<<(std::ostream &os, glm::vec3 v) {
+	return os << v.x << " " << v.y << " " << v.z << " ";
+}
+
 void Application::framebufferSizeCallback(GLFWwindow *window, int width,
                                           int height) {
 	glViewport(0, 0, width, height);
@@ -33,9 +40,11 @@ Application::Application(unsigned int width, unsigned int height,
 	glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
 
 	c = new Cube();
-	c->view =
-	    glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-	                glm::vec3(0.0f, 1.0f, 0.0f));
+
+	cam = Camera(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+	             glm::vec3(0.0f, 1.0f, 0.0f));
+
+	c->view = cam.look();
 	c->projection = glm::perspective(glm::radians(90.0f),
 	                                 m_height / (float)m_height, 0.1f, 100.0f);
 }
@@ -49,6 +58,26 @@ void Application::run() {
 }
 
 void Application::processEvents() {
+
+	if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		c->model = glm::rotate(c->model, glm::radians(1.0f),
+		                       glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+
+		c->model = glm::rotate(c->model, glm::radians(-1.0f),
+		                       glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
+
+		c->model = glm::rotate(c->model, glm::radians(1.0f),
+		                       glm::vec3(1.0f, 0.0f, 0.0f));
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+
+		c->model = glm::rotate(c->model, glm::radians(-1.0f),
+		                       glm::vec3(1.0f, 0.0f, 0.0f));
+	}
 	if (c->running) {
 		c->resume();
 		return;
@@ -208,15 +237,6 @@ void Application::processEvents() {
 		if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_RELEASE) {
 			m_key_set.erase('s');
 		}
-	}
-
-	if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-	}
-	if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-	}
-	if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
-	}
-	if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 	}
 }
 
