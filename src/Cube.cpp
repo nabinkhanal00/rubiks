@@ -7,6 +7,10 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
+#include <time.h>
+#include <stdlib.h>
+
+#define M_PI_2 1.57079632679489661923
 
 Cube::Cube() : running(false), animate(true), ss(false) {
 
@@ -962,7 +966,7 @@ void Cube::DAnimate() {
 
 void Cube::shuffle() {
 	for (int i = 0; i < 10; i++) {
-		int pos = random() % 12;
+		int pos = rand() % 12;
 		applyMove(static_cast<Move>(pos));
 	}
 }
