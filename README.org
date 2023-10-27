@@ -1,6 +1,7 @@
 * RUBIKS
   Rubiks is a rubiks cube simulation written in OpenGL.
-
+  [[./rubiks.gif]]
+  
 ** Build Instruction
 #+begin_src bash
 git clone https://www.github.com/khanalnabin/rubiks --recursive
@@ -23,4 +24,3 @@ cd rubiks
 - "u" : up
 - "d" : down
 *** Pressing "s" will shuffle the cube and start to solve itself.
-[[./rubiks.gif]]
